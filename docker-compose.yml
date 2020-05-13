@@ -1,0 +1,30 @@
+version: '3.7'
+
+services:
+  # The database service is used for data storage. The database files are stored
+  # locally inside of the project and could easily be cleaned-up if needed.
+  db:
+    image: postgres:10-alpine
+    container_name: ebook-database
+    restart: on-failure
+    init: true
+    ports:
+      - 5432:5432
+    volumes:
+      - ./pg_init:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: plaintextpassword
+      POSTGRES_MULTIPLE_DATABASES: ebook
+      POSTGRES_HOST_AUTH_METHOD: trust
+    logging:
+      driver: 'json-file'
+      options:
+        max-size: '1m'
+        max-file: '10'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U postgres']
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 15s

@@ -1,0 +1,35 @@
+{
+  "compilerOptions": {
+    "target": "es6",
+    "module": "commonjs",
+    "noEmit": true,
+    "noImplicitAny": false,
+    "sourceMap": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": true,
+    "strictNullChecks": false,
+    "outDir": "./build/",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "typeRoots": ["node_modules/@types", "./**/typings"],
+    "lib": [
+      "es5",
+      "es6",
+      "es7",
+      "es2015",
+      "es2015.promise",
+      "es2017",
+      "es2017.object"
+    ],
+    "rootDirs": ["./"],
+    "baseUrl": ".",
+    "types": ["node", "mocha"],
+    "resolveJsonModule": true
+  },
+  "include": [
+    "./**/*.ts",
+    "./node_modules/common/**/*.ts",
+    "./node_modules/config/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}
