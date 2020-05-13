@@ -29,7 +29,7 @@
   "include": [
     "./**/*.ts",
     "./node_modules/common/**/*.ts",
-    "./node_modules/config/**/*.ts"
+    "./node_modules/config/**/*.ts", "database/migrations-config.js"
   ],
   "exclude": ["node_modules"]
 }
