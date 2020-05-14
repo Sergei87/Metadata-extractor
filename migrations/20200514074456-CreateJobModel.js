@@ -9,7 +9,7 @@ module.exports = {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      book_id: {
+      bookId: {
         type: DataTypes.INTEGER,
       },
       status: {
