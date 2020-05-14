@@ -9,10 +9,13 @@ module.exports = {
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      bookId: {
-        type: DataTypes.INTEGER,
+      filePath: {
+        type: DataTypes.TEXT,
       },
       status: {
+        type: DataTypes.TEXT,
+      },
+      errorMessage: {
         type: DataTypes.TEXT,
       },
       createdAt: {
