@@ -1,19 +1,20 @@
 import db from '../conection';
 import { Model, DataTypes } from 'sequelize';
 
-export interface IBookModel {
-  id: string;
-  bookId: number;
-  title: string;
-  authors: string[];
-  publisher: string;
-  language: string;
-  subjects: string[];
-  licenseRights: string;
-  publicationDate: Date;
-}
+export class BookModel extends Model {
+  public id!: string;
+  public bookId!: number;
+  public title!: string;
+  public authors!: string[];
+  public publisher!: string;
+  public language!: string;
+  public subjects!: string[];
+  public licenseRights!: string;
+  public publicationDate!: Date;
 
-export class BookModel extends Model {}
+  public readonly createdAt!: Date;
+  public readonly updatedAt!: Date;
+}
 
 BookModel.init(
   {
@@ -52,5 +53,17 @@ BookModel.init(
     sequelize: db,
     modelName: 'BookModel',
     tableName: 'book',
+    indexes: [
+      {
+        name: 'authors_index',
+        fields: ['authors'],
+        using: 'gin',
+      },
+      {
+        name: 'title_index',
+        fields: ['title'],
+        using: 'btree',
+      },
+    ],
   }
 );
