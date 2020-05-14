@@ -7,9 +7,4 @@ export default {
   port: '5432',
   synchronize: false,
   type: 'postgres',
-  entities: [`/models/**/*.ts`],
-  migrations: ['./migrations/**/*.ts'],
-  cli: {
-    migrationsDir: './database/migrations',
-  },
 };
