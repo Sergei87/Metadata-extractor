@@ -1,6 +1,18 @@
 import db from '../conection';
 import { Model, DataTypes } from 'sequelize';
 
+export interface IBookModel {
+  id: string;
+  bookId: number;
+  title: string;
+  authors: string[];
+  publisher: string;
+  language: string;
+  subjects: string[];
+  licenseRights: string;
+  publicationDate: Date;
+}
+
 export class BookModel extends Model {}
 
 BookModel.init(
@@ -11,7 +23,7 @@ BookModel.init(
       primaryKey: true,
       defaultValue: DataTypes.UUIDV4,
     },
-    book_id: {
+    bookId: {
       type: DataTypes.INTEGER,
     },
     title: {
@@ -29,10 +41,10 @@ BookModel.init(
     subjects: {
       type: DataTypes.ARRAY(DataTypes.TEXT),
     },
-    license_rights: {
+    licenseRights: {
       type: DataTypes.TEXT,
     },
-    publication_date: {
+    publicationDate: {
       type: DataTypes.DATE,
     },
   },
@@ -42,11 +54,3 @@ BookModel.init(
     tableName: 'book',
   }
 );
-
-// BookModel.sync({ force: true }).then(() => {
-//   // Now the `users` table in the database corresponds to the model definition
-//   return BookModel.create({
-//     firstName: 'John',
-//     lastName: 'Hancock',
-//   });
-// });
