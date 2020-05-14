@@ -2,36 +2,18 @@
 
 module.exports = {
   up: (queryInterface, DataTypes) => {
-    return queryInterface.createTable('book', {
+    return queryInterface.createTable('job', {
       id: {
         type: DataTypes.UUID,
         allowNull: false,
         primaryKey: true,
         defaultValue: DataTypes.UUIDV4,
       },
-      bookId: {
+      book_id: {
         type: DataTypes.INTEGER,
       },
-      title: {
+      status: {
         type: DataTypes.TEXT,
-      },
-      authors: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
-      },
-      publisher: {
-        type: DataTypes.TEXT,
-      },
-      language: {
-        type: DataTypes.TEXT,
-      },
-      subjects: {
-        type: DataTypes.ARRAY(DataTypes.TEXT),
-      },
-      licenseRights: {
-        type: DataTypes.TEXT,
-      },
-      publicationDate: {
-        type: DataTypes.DATE,
       },
       createdAt: {
         allowNull: false,
@@ -45,6 +27,6 @@ module.exports = {
   },
 
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable('book');
+    return queryInterface.dropTable('job');
   },
 };
