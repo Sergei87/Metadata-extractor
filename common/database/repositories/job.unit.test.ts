@@ -126,4 +126,50 @@ describe('Job Repository unit tests', () => {
       assert.strictEqual(actualResult, expectedResult);
     });
   });
+
+  describe('#createBulk', () => {
+    let sandbox: sinon.SinonSandbox;
+
+    let createBulkStub: sinon.SinonStub;
+
+    let actualResult;
+    let creteRecords;
+    let createBulkStubResult;
+
+    before(async () => {
+      sandbox = sinon.createSandbox();
+
+      creteRecords = [
+        {
+          id: faker.random.uuid(),
+          bookId: faker.random.number(),
+        },
+        {
+          id: faker.random.uuid(),
+          bookId: faker.random.number(),
+        },
+      ];
+
+      createBulkStubResult = [{ id: faker.random.uuid() }];
+
+      createBulkStub = sandbox.stub(JobModel, 'bulkCreate');
+      createBulkStub.resolves(createBulkStubResult);
+
+      actualResult = await jobRepository.createBulk(creteRecords);
+    });
+
+    after(() => {
+      sandbox.restore();
+    });
+
+    it('should call JobModel.createBulk once', () => {
+      assert.isTrue(createBulkStub.calledOnce);
+
+      sinon.assert.calledWithExactly(createBulkStub, creteRecords);
+    });
+
+    it('should return expected result', () => {
+      assert.strictEqual(actualResult, createBulkStubResult);
+    });
+  });
 });

@@ -16,6 +16,10 @@ class JobRepository {
   ): Promise<[number, JobModel[]]> {
     return JobModel.update(data, criteria);
   }
+
+  public createBulk(jobs: Partial<JobModel>[]): Promise<JobModel[]> {
+    return JobModel.bulkCreate(jobs);
+  }
 }
 
 export const jobRepository = new JobRepository();
