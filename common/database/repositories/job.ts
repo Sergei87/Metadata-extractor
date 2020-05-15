@@ -3,7 +3,7 @@ import { UpdateOptions } from 'sequelize/types';
 
 class JobRepository {
   public async create(data: Partial<JobModel>): Promise<JobModel> {
-    return JobModel.create({ ...data, raw: true });
+    return JobModel.create(data);
   }
 
   public async findMany(condition: Object): Promise<JobModel[]> {

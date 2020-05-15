@@ -1,7 +1,7 @@
-import { BookModel, IBookModel } from '../models/book';
+import { BookModel } from '../models/book';
 
 class BookRepository {
-  public async create(data: Partial<IBookModel>): Promise<any> {
+  public async create(data: Partial<BookModel>): Promise<BookModel> {
     return BookModel.create(data);
   }
 }
