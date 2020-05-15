@@ -3,7 +3,7 @@ import * as faker from 'faker';
 import * as lodash from 'lodash';
 import * as fs from 'fs';
 import { assert } from 'chai';
-import { jobService, BASE_PATH, CHUNK_SIZE } from './job';
+import { jobService, CHUNK_SIZE } from './job';
 import { jobRepository } from '../database/repositories/job';
 import { JobStatusEnum } from '../database/models/job';
 
@@ -87,18 +87,20 @@ describe('JobService unit tests', () => {
 
   describe('#creatJobRecord', () => {
     let folderId;
+    let folderPath;
 
     let actualResult;
 
     before(() => {
       folderId = faker.random.number();
+      folderPath = faker.random.word();
 
-      actualResult = jobService['createJobRecord'](folderId);
+      actualResult = jobService['createJobRecord'](folderPath, folderId);
     });
 
     it('should return expected result', () => {
       const expectedResult = {
-        filePath: `${BASE_PATH}/${folderId}/pg${folderId}.rdf`,
+        filePath: `${folderPath}/${folderId}/pg${folderId}.rdf`,
         status: JobStatusEnum.CREATED,
       };
 
@@ -108,6 +110,8 @@ describe('JobService unit tests', () => {
 
   describe('#createJobs', () => {
     let sandbox: sinon.SinonSandbox;
+
+    let folderPath;
 
     let readdirResult;
     let createJobRecordResult1;
@@ -121,6 +125,8 @@ describe('JobService unit tests', () => {
 
     before(async () => {
       sandbox = sinon.createSandbox();
+
+      folderPath = faker.random.word();
 
       readdirResult = [faker.random.number(), faker.random.number()];
 
@@ -141,7 +147,7 @@ describe('JobService unit tests', () => {
 
       createBulkStub = sandbox.stub(jobRepository, 'createBulk');
 
-      await jobService.createJobs();
+      await jobService.createJobs(folderPath);
     });
 
     after(() => {
@@ -151,7 +157,7 @@ describe('JobService unit tests', () => {
     it('should call readdir once', () => {
       assert.isTrue(readdirStub.calledOnce);
 
-      sinon.assert.calledWithExactly(readdirStub, BASE_PATH);
+      sinon.assert.calledWithExactly(readdirStub, folderPath);
     });
 
     it('should call createJobRecord N times', () => {
@@ -159,11 +165,13 @@ describe('JobService unit tests', () => {
 
       sinon.assert.calledWithExactly(
         createJobRecordStub.getCall(0),
+        folderPath,
         readdirResult[0]
       );
 
       sinon.assert.calledWithExactly(
         createJobRecordStub.getCall(1),
+        folderPath,
         readdirResult[1]
       );
     });

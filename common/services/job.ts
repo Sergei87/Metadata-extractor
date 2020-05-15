@@ -3,7 +3,6 @@ import * as _ from 'lodash';
 import { JobModel, JobStatusEnum } from '../database/models/job';
 import { jobRepository } from '../database/repositories/job';
 
-export const BASE_PATH = __dirname + '/../../cache/epub';
 export const CHUNK_SIZE = 1000;
 
 class JobService {
@@ -21,17 +20,19 @@ class JobService {
     return jobRepository.update(data, { where: criteria } as any);
   }
 
-  private createJobRecord(folderId: string) {
+  private createJobRecord(folderPath: string, folderId: string) {
     return {
-      filePath: `${BASE_PATH}/${folderId}/pg${folderId}.rdf`,
+      filePath: `${folderPath}/${folderId}/pg${folderId}.rdf`,
       status: JobStatusEnum.CREATED,
     };
   }
 
-  public async createJobs(): Promise<void> {
-    const folderIds = await fs.promises.readdir(BASE_PATH);
+  public async createJobs(folderPath): Promise<void> {
+    const folderIds = await fs.promises.readdir(folderPath);
 
-    const jobs = folderIds.map((folderId) => this.createJobRecord(folderId));
+    const jobs = folderIds.map((folderId) =>
+      this.createJobRecord(folderPath, folderId)
+    );
 
     const jobChunks = _.chunk(jobs, CHUNK_SIZE);
 
