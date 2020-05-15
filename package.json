@@ -17,7 +17,7 @@
     "xml2js": "^0.4.23"
   },
   "scripts": {
-    "start": "./node_modules/.bin/ts-node start.ts",
+    "start": "./node_modules/.bin/ts-node index.ts",
     "start:worker": "./node_modules/.bin/ts-node worker",
     "migrate:generate": "./node_modules/.bin/sequelize-cli migration:generate --name",
     "migrate": "./node_modules/.bin/sequelize-cli db:migrate --config ./common/database/migrations-config.json",
