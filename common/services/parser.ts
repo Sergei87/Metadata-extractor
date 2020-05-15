@@ -1,7 +1,7 @@
 import * as fs from 'fs';
 import { Parser } from 'xml2js';
 import * as _ from 'lodash';
-import { IBookModel } from '../database/models/book';
+import { BookModel } from '../database/models/book';
 
 class ParserService {
   private xmlParser = new Parser();
@@ -14,7 +14,7 @@ class ParserService {
     return this.xmlParser.parseStringPromise(xml);
   }
 
-  public extractMetadata(metaData): IBookModel {
+  public extractMetadata(metaData): Partial<BookModel> {
     const bookMeta = metaData['rdf:RDF']['pgterms:ebook'][0];
 
     let result = {
@@ -29,7 +29,7 @@ class ParserService {
       ),
       licenseRights: _.get(bookMeta, 'dcterms:rights[0]'),
       publicationDate: _.get(bookMeta, 'dcterms:issued[0]._'),
-    } as IBookModel;
+    };
 
     return result;
   }
