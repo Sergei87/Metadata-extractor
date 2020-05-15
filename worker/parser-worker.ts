@@ -5,10 +5,10 @@ import { parserService } from '../common/services/parser';
 import { bookRepository } from '../common/database/repositories/book';
 
 class ParserWorker {
-  public async processJobs() {
-    const jobs = await jobService.findNextJob(20);
+  public async processJobs(limit) {
+    const jobs = await jobService.findNextJob(limit);
 
-    await Promise.all(jobs.map(this.processJob));
+    await Promise.all(jobs.map((job) => this.processJob(job)));
   }
 
   public async processJob(job: JobModel): Promise<void> {
@@ -41,7 +41,7 @@ class ParserWorker {
     console.log('Worker started');
 
     while (true) {
-      await this.processJobs();
+      await this.processJobs(20);
 
       await sleep(50);
     }
