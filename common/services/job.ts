@@ -48,6 +48,8 @@ class JobService {
         return result;
       })
     );
+
+    console.log('Jobs was successfully created');
   }
 }
 
