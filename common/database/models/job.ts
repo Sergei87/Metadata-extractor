@@ -5,6 +5,7 @@ export enum JobStatusEnum {
   CREATED = 'created',
   IN_PROGRESS = 'in_progress',
   COMPLETED = 'completed',
+  FAILED = 'failed',
 }
 
 export class JobModel extends Model {

@@ -23,15 +23,14 @@ class ParserWorker {
       bookMetaData = await parserService.parseRdfFile(job.filePath);
     } catch (error) {
       await jobService.updateJobStatus(
-        { status: JobStatusEnum.IN_PROGRESS },
+        { status: JobStatusEnum.FAILED },
         { id: job.id, errorMessage: error.message }
       );
 
       return;
     }
-    console.time(job.id);
     await bookRepository.create(bookMetaData);
-    console.timeEnd(job.id);
+
     await jobService.updateJobStatus(
       { status: JobStatusEnum.COMPLETED },
       { id: job.id }
