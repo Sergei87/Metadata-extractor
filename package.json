@@ -21,7 +21,7 @@
     "start:worker": "./node_modules/.bin/ts-node worker",
     "migrate:generate": "./node_modules/.bin/sequelize-cli migration:generate --name",
     "migrate": "./node_modules/.bin/sequelize-cli db:migrate --config ./common/database/migrations-config.json",
-    "test:unit": "mocha --opts ./mocha.unit.opts --reporter spec"
+    "test": "mocha --opts ./mocha.unit.opts --reporter spec"
   },
   "devDependencies": {
     "@types/chai": "^4.1.3",
