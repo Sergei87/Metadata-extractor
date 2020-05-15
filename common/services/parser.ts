@@ -4,9 +4,9 @@ import * as _ from 'lodash';
 import { BookModel } from '../database/models/book';
 
 class ParserService {
-  private xmlParser = new Parser();
+  public xmlParser = new Parser();
 
-  public async readRdfFile(filePath: string) {
+  public async readFile(filePath: string) {
     return fs.promises.readFile(filePath);
   }
 
@@ -34,7 +34,7 @@ class ParserService {
     return result;
   }
 
-  protected getAuthors(bookMetaData): string[] {
+  private getAuthors(bookMetaData): string[] {
     const authors = _.get(bookMetaData, 'dcterms:creator');
 
     if (!authors) return null;
@@ -44,20 +44,20 @@ class ParserService {
     );
   }
 
-  protected getSubjects(bookMetaData): string[] {
-    const authors = _.get(bookMetaData, 'dcterms:subject');
+  private getSubjects(bookMetaData): string[] {
+    const subjects = _.get(bookMetaData, 'dcterms:subject');
 
-    if (!authors) return null;
+    if (!subjects) return null;
 
-    return authors.map((author) =>
-      _.get(author, 'rdf:Description[0].rdf:value[0]')
+    return subjects.map((subject) =>
+      _.get(subject, 'rdf:Description[0].rdf:value[0]')
     );
   }
 
   public async parseRdfFile(filePath) {
-    let xml = await this.readRdfFile(filePath);
+    let content = await this.readFile(filePath);
 
-    const fileMeta = await this.convertXmlTOJson(xml);
+    const fileMeta = await this.convertXmlTOJson(content);
 
     return this.extractMetadata(fileMeta);
   }
